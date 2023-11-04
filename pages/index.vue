@@ -82,7 +82,7 @@ const copyToClipboard = () => {
     cursor: pointer;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 992px) {
     .container {
         grid-template-columns: 1fr;
     }
