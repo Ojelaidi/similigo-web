@@ -49,7 +49,7 @@ const handleSubmit = () => {
             <div class="form-group">
                 <div class="field-input">
                     <label>Compare with</label>
-                    <InputText type="text" v-model="textToCompare"/>
+                    <FileUpload mode="basic" name="demo[]" url="/api/upload" accept="image/*" :maxFileSize="1000000" @upload="onUpload" />
                 </div>
             </div>
             <div class="form-group">
@@ -73,6 +73,11 @@ const handleSubmit = () => {
                         <label>Containment Weight</label>
                         <InputNumber v-model="containmentWeight" inputId="integeronly" showButtons :step="0.1"/>
                     </div>
+                </div>
+
+                <div class="field-input">
+                    <label>N</label>
+                    <InputNumber v-model="nGramSize" inputId="integeronly" showButtons :step="1"/>
                 </div>
             </div>
 

@@ -1,9 +1,11 @@
 <script setup>
 import VueJsonPretty from 'vue-json-pretty'
 import HybridCalculatorForm from "~/components/HybridCalculatorForm.vue";
+import BestMatchForm from "~/components/BestMatchForm.vue";
 
 const isLoading = ref(false);
 const apiData = ref(null)
+const selectedForm = ref('Hybrid');
 const handleHybridFormSubmission = async (formData) => {
     isLoading.value = true;
     const {data} = await useFetch('/api/similigo/hybrid-similarity', {
@@ -12,8 +14,6 @@ const handleHybridFormSubmission = async (formData) => {
     apiData.value = data.value
     isLoading.value = false
 };
-
-
 const copyToClipboard = () => {
     const jsonContent = JSON.stringify(apiData.value, null, 2);
     const textarea = document.createElement('textarea');
@@ -29,7 +29,17 @@ const copyToClipboard = () => {
 <template>
     <div class="container">
         <div class="left-column">
-            <HybridCalculatorForm @form-submitted="handleHybridFormSubmission"/>
+            <div class="tab flex justify-start gap-5">
+                <p  class="tab-btn text-xl text-left text-color-secondary" @click="selectedForm = 'Hybrid'" :class="{ active: selectedForm === 'Hybrid' }">Hybrid</p>
+                <p  class="tab-btn text-xl text-color-secondary" @click="selectedForm = 'Best Match'" :class="{ active: selectedForm === 'Best Match' }">Best Match</p>
+            </div>
+            <div v-if="selectedForm === 'Hybrid'">
+                <HybridCalculatorForm @form-submitted="handleHybridFormSubmission" />
+            </div>
+
+            <div v-if="selectedForm === 'Best Match'">
+                <BestMatchForm @form-submitted="handleBestMatchFormSubmission" />
+            </div>
         </div>
         <div class="right-column">
             <div>
@@ -54,12 +64,35 @@ const copyToClipboard = () => {
     </div>
 </template>
 
-<style scoped>
+<style>
 .container {
     padding: 20px;
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
+
+.tab {
+}
+
+.tab-btn:focus {
+    outline: none;
+    border:none;
+    box-shadow: none;
+}
+
+.tab-btn.active {
+  border-bottom: 4px solid var(--primary-color);
+}
+
+.tab-btn.active:hover {
+    border-bottom: 4px solid var(--primary-color);
+}
+
+.tab-btn:hover {
+    cursor: pointer;
+    border-bottom: 4px solid var(--text-color-secondary);
+}
+
 
 .left-column {
     background-color: #f0f0f0;
