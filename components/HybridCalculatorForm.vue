@@ -6,6 +6,7 @@ const DefaultNgramWeight = 0.3
 const DefaultContainmentWeight = 0.2
 
 const text = ref('')
+const textToCompare = ref('')
 const nGramSize = ref(DefaultNgramSize)
 const nGramWeight = ref(DefaultNgramWeight)
 const wordWeight = ref(DefaultWordWeight)
@@ -16,11 +17,12 @@ const emit = defineEmits({})
 
 const handleSubmit = () => {
     const formData = {
-        text: text.value,
-        nGramSize: nGramSize.value,
-        nGramWeight: nGramWeight.value,
-        wordWeight: wordWeight.value,
-        containmentWeight: containmentWeight.value,
+        string1: text.value,
+        string2: textToCompare.value,
+        ngramSize: nGramSize.value,
+        ngramSimWeight: nGramWeight.value,
+        wordSimWeight: wordWeight.value,
+        containmentSimWeight: containmentWeight.value,
     }
     emit('form-submitted', formData);
 
@@ -32,8 +34,15 @@ const handleSubmit = () => {
         <form>
             <div class="form-group">
                 <div class="field-input max-w-24rem">
-                    <label>Text</label>
+                    <label>Your Text</label>
                     <InputText type="text" v-model="text"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="field-input max-w-24rem">
+                    <label>Compare with</label>
+                    <InputText type="text" v-model="textToCompare"/>
                 </div>
             </div>
             <div class="form-group">

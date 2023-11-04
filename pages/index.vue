@@ -22,7 +22,6 @@ const copyToClipboard = () => {
     textarea.select();
     document.execCommand('copy');
     document.body.removeChild(textarea);
-    console.log("here", jsonContent)
 }
 
 </script>
@@ -44,8 +43,8 @@ const copyToClipboard = () => {
                 />
                 <div v-else>
                     <vue-json-pretty :data="apiData ? apiData : 'Waiting for your demand..'"/>
-                    <div class="actions">
-                        <i class="pi pi-copy" v-tooltip="'Copier contenu'" style="font-size: 1.8rem"
+                    <div class="actions text-color-secondary ">
+                        <i class="pi pi-copy" v-tooltip="'Copy Content'" style="font-size: 1.8rem"
                            @click="copyToClipboard"></i>
                     </div>
                 </div>

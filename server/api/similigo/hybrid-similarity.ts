@@ -1,20 +1,30 @@
 export default defineEventHandler(async event => {
     const body = await readBody(event)
-    console.log("body", body)
+    const data = await getCalculateHybrid(body)
     return {
-        matches: [
-            {
-                text: "Bonjour le monde",
-                score: 1
-            },
-            {
-                text: "Bonjour le monde",
-                score: 1
-            },
-            {
-                text: "Salut tout le monde",
-                score: 0.4861234
-            }
-        ]
+        similarityScore: data.result
     }
 })
+
+export const getCalculateHybrid = async (body: any) => {
+    const baseURL = process.env.SIMILIGO_API_URL
+    try {
+        const response = await fetch(`${baseURL}/calculateHybridSimilarity`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
+        });
+
+        if (!response.ok) {
+            throw new Error(`Request failed with status: ${response.status}`);
+        }
+
+        return await response.json();
+    } catch (error) {
+        if (error) {
+            throw new Error(`getCalculateHybrid calling endpoint: ${error}`);
+        }
+    }
+}

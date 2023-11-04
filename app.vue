@@ -5,7 +5,7 @@
         </header>
         <NuxtPage/>
         <footer>
-            similigo
+            <a class="text-color-secondary no-underline" href="https://github.com/Ojelaidi/similigo" target="_blank">similigo</a>
         </footer>
     </div>
 </template>
