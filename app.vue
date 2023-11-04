@@ -1,50 +1,33 @@
-<script setup>
-import VueJsonPretty from 'vue-json-pretty'
-import HybridCalculatorForm from "~/components/forms/HybridCalculatorForm.vue";
-</script>
-
 <template>
-    <main>
+    <div class="app-container">
         <header>
-            <h1 class="text-3xl font-bold">Similigo Web</h1>
+                <h1 class="text-3xl font-bold text-color-secondary">Similigo Web</h1>
         </header>
-        <div class="container">
-            <div class="left-column">
-                <HybridCalculatorForm />
-            </div>
-            <div class="right-column">
-                <div>
-                    <vue-json-pretty :data="{ key: 'value' }" />
-                </div>
-            </div>
-        </div>
-    </main>
+        <NuxtPage/>
+        <footer>
+            similigo
+        </footer>
+    </div>
 </template>
 
 <style scoped>
-main {
-    padding: 20px;
+.app-container {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: #f0f0f0;
 }
 
-.container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
+header {
+    padding-left: 20px;
 }
 
-.left-column {
-    background-color: #f0f0f0;
-    padding: 20px;
-}
 
-.right-column {
-    border: 1px solid #e0e0e0;
-    padding: 20px;
-}
-
-@media screen and (max-width: 768px) {
-    .container {
-        grid-template-columns: 1fr;
-    }
+footer {
+    margin-top: auto;
+    text-align: center;
 }
 </style>
+<script setup>
+</script>

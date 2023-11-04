@@ -1,8 +1,8 @@
 <script setup lang="ts">
 
-const DefaultNgramSize            = 2
-const DefaultWordWeight        = 0.5
-const DefaultNgramWeight       = 0.3
+const DefaultNgramSize = 2
+const DefaultWordWeight = 0.5
+const DefaultNgramWeight = 0.3
 const DefaultContainmentWeight = 0.2
 
 const text = ref('')
@@ -11,8 +11,10 @@ const nGramWeight = ref(DefaultNgramWeight)
 const wordWeight = ref(DefaultWordWeight)
 const containmentWeight = ref(DefaultContainmentWeight)
 
+const emit = defineEmits({})
 
-const submitForm = () => {
+
+const handleSubmit = () => {
     const formData = {
         text: text.value,
         nGramSize: nGramSize.value,
@@ -20,21 +22,20 @@ const submitForm = () => {
         wordWeight: wordWeight.value,
         containmentWeight: containmentWeight.value,
     }
-    console.log(formData)
+    emit('form-submitted', formData);
+
 };
 </script>
 
 <template>
     <div>
-        <form @submit.prevent="submitForm">
+        <form>
             <div class="form-group">
                 <div class="field-input max-w-24rem">
                     <label>Text</label>
                     <InputText type="text" v-model="text"/>
                 </div>
             </div>
-
-
             <div class="form-group">
                 <div class="field-input max-w-10rem">
                     <label>NGram Size</label>
@@ -53,9 +54,8 @@ const submitForm = () => {
                     <InputNumber v-model="containmentWeight" inputId="integeronly" showButtons :step="0.1"/>
                 </div>
             </div>
-
             <div class="form-group">
-                <Button type="submit">Calculer</Button>
+                <Button @click="handleSubmit">Calculer</Button>
             </div>
         </form>
     </div>

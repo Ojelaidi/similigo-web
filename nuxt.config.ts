@@ -7,8 +7,10 @@ export default defineNuxtConfig({
         usePrimeVue: true
     },
     css: [
+        'assets/main.css',
         'primeflex/primeflex.css',
         'primevue/resources/themes/lara-light-teal/theme.css',
-        'vue-json-pretty/lib/styles.css'
+        'vue-json-pretty/lib/styles.css',
+        'primeicons/primeicons.css'
     ]
 })
