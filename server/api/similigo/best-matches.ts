@@ -1,15 +1,15 @@
 export default defineEventHandler(async event => {
     const body = await readBody(event)
-    const data = await getCalculateHybrid(body)
+    const data = await getBestMatches(body)
     return {
-        similarityScore: data.result
+        matches: data.matches
     }
 })
 
-export const getCalculateHybrid = async (body: any) => {
+export const getBestMatches = async (body: any) => {
     const baseURL = process.env.SIMILIGO_API_URL
     try {
-        const response = await fetch(`${baseURL}/calculateHybridSimilarity`, {
+        const response = await fetch(`${baseURL}/calculateBestMatches`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -24,7 +24,7 @@ export const getCalculateHybrid = async (body: any) => {
         return await response.json();
     } catch (error) {
         if (error) {
-            throw new Error(`getCalculateHybrid calling endpoint: ${error}`);
+            throw new Error(`getBestMatches: ${error}`);
         }
     }
 }

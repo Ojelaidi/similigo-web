@@ -39,6 +39,7 @@ const handleSubmit = () => {
 <template>
     <div>
         <form>
+            <span class="font-medium text-md text-color-secondary">Calculate similarity between two strings</span>
             <div class="form-group">
                 <div class="field-input">
                     <label>Your Text</label>

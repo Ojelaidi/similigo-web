@@ -1,5 +1,7 @@
 <script setup lang="ts">
 
+import FileLoader from "~/components/FileLoader.vue";
+
 const DefaultNgramSize = 2
 const DefaultWordWeight = 0.5
 const DefaultNgramWeight = 0.3
@@ -13,13 +15,18 @@ const wordWeight = ref(DefaultWordWeight)
 const containmentWeight = ref(DefaultContainmentWeight)
 const excludeWordsInput = ref('');
 let excludeWords = [];
+const uploadedJSON = ref(null)
 
 const updateExcludeWordsArray = () => {
     excludeWords = excludeWordsInput.value.split(',').map(word => word.trim());
 };
 
+
 const emit = defineEmits({})
 
+const onHandleJsonLoaded = (jsonData) => {
+    uploadedJSON.value = jsonData
+}
 
 const handleSubmit = () => {
     const formData = {
@@ -30,6 +37,7 @@ const handleSubmit = () => {
         wordSimWeight: wordWeight.value,
         containmentSimWeight: containmentWeight.value,
         stopWords: excludeWords,
+        jsonData: uploadedJSON.value,
     }
     emit('form-submitted', formData);
 
@@ -39,6 +47,7 @@ const handleSubmit = () => {
 <template>
     <div>
         <form>
+            <span class="font-medium text-md text-color-secondary">Find best similarity match in a JSON file.</span>
             <div class="form-group">
                 <div class="field-input">
                     <label>Your Text</label>
@@ -49,7 +58,7 @@ const handleSubmit = () => {
             <div class="form-group">
                 <div class="field-input">
                     <label>Compare with</label>
-                    <FileUpload mode="basic" name="demo[]" url="/api/upload" accept="image/*" :maxFileSize="1000000" @upload="onUpload" />
+                    <FileLoader @json-loaded="onHandleJsonLoaded"/>
                 </div>
             </div>
             <div class="form-group">
@@ -84,7 +93,8 @@ const handleSubmit = () => {
             <div class="form-group">
                 <div class="field-input">
                     <label>Words to Exclude</label>
-                    <Textarea v-model="excludeWordsInput" placeholder="to,with,into" autoResize rows="5" cols="30" @input="updateExcludeWordsArray" />
+                    <Textarea v-model="excludeWordsInput" placeholder="to,with,into" autoResize rows="5" cols="30"
+                              @input="updateExcludeWordsArray"/>
                 </div>
             </div>
 
@@ -121,6 +131,7 @@ const handleSubmit = () => {
     form {
         padding: 10px
     }
+
     .form-group-row {
         margin-top: 10px;
         display: flex;

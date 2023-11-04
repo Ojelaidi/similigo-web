@@ -6,9 +6,18 @@ import BestMatchForm from "~/components/BestMatchForm.vue";
 const isLoading = ref(false);
 const apiData = ref(null)
 const selectedForm = ref('Hybrid');
-const handleHybridFormSubmission = async (formData) => {
+const handleHybridSubmit = async (formData) => {
     isLoading.value = true;
     const {data} = await useFetch('/api/similigo/hybrid-similarity', {
+        method: 'POST', body: formData
+    })
+    apiData.value = data.value
+    isLoading.value = false
+};
+
+const handleBestMatchSubmit = async (formData) => {
+    isLoading.value = true;
+    const {data} = await useFetch('/api/similigo/best-matches', {
         method: 'POST', body: formData
     })
     apiData.value = data.value
@@ -30,15 +39,17 @@ const copyToClipboard = () => {
     <div class="container">
         <div class="left-column">
             <div class="tab flex justify-start gap-5">
-                <p  class="tab-btn text-xl text-left text-color-secondary" @click="selectedForm = 'Hybrid'" :class="{ active: selectedForm === 'Hybrid' }">Hybrid</p>
-                <p  class="tab-btn text-xl text-color-secondary" @click="selectedForm = 'Best Match'" :class="{ active: selectedForm === 'Best Match' }">Best Match</p>
+                <p class="tab-btn text-xl text-left text-color-secondary" @click="selectedForm = 'Hybrid'"
+                   :class="{ active: selectedForm === 'Hybrid' }">Hybrid</p>
+                <p class="tab-btn text-xl text-color-secondary" @click="selectedForm = 'Best Match'"
+                   :class="{ active: selectedForm === 'Best Match' }">Best Match</p>
             </div>
             <div v-if="selectedForm === 'Hybrid'">
-                <HybridCalculatorForm @form-submitted="handleHybridFormSubmission" />
+                <HybridCalculatorForm @form-submitted="handleHybridSubmit"/>
             </div>
 
             <div v-if="selectedForm === 'Best Match'">
-                <BestMatchForm @form-submitted="handleBestMatchFormSubmission" />
+                <BestMatchForm @form-submitted="handleBestMatchSubmit"/>
             </div>
         </div>
         <div class="right-column">
@@ -76,12 +87,12 @@ const copyToClipboard = () => {
 
 .tab-btn:focus {
     outline: none;
-    border:none;
+    border: none;
     box-shadow: none;
 }
 
 .tab-btn.active {
-  border-bottom: 4px solid var(--primary-color);
+    border-bottom: 4px solid var(--primary-color);
 }
 
 .tab-btn.active:hover {
